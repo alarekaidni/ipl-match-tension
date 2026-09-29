@@ -87,11 +87,12 @@ jupyter lab
   - Downloaded canonical ball-by-ball IPL dataset.
   - Standardized franchise rebrands (*Delhi Daredevils $\to$ Delhi Capitals*, *Kings XI Punjab $\to$ Punjab Kings*, *Rising Pune Supergiants $\to$ Rising Pune Supergiant*, *Deccan Chargers $\to$ Sunrisers Hyderabad*).
   - Filtered 3 'no result' washouts and 16 Duckworth-Lewis-Stern (DLS) truncated matches to preserve standard 120-ball chase dynamics.
-- [ ] **Stage 2: Exploratory Data Analysis & Strategic Business Takeaways** (Next)
-  - Toss impact by venue.
-  - Bat-first vs. Chase win rates across seasons.
-  - Powerplay (Overs 1-6) and Death-over (Overs 16-20) scoring distributions.
-  - 3 streaming business takeaways.
+- [x] **Stage 2: Exploratory Data Analysis & Strategic Business Takeaways**
+  - Generated 4 publication-quality charts saved to `reports/figures/`.
+  - Discovered venue asymmetry: Chepauk favors batting first (64.6% bat-first wins), while Chinnaswamy/Sawai Mansingh heavily favor chasing (56–70% chase wins).
+  - Uncovered the historical T20 chasing paradigm shift, peaking at 67.9% chasing wins in 2016.
+  - Quantified phase scoring: Powerplay (7.50 RPO, 17.8% boundary rate), Middle overs (7.54 RPO, 12.7% boundary rate, lowest variance $\sigma=4.11$), Death overs (9.42 RPO, 18.6% boundary rate, 2x wicket hazard at 0.50/over).
+  - Defined 3 JioStar business applications: Event-driven push notifications (Overs 15–18), dynamic ad breaks (Overs 7–14), and automated short-form highlight clipping.
 - [ ] **Stage 3: Chase-State Table Construction**
   - Compute ball-by-ball: `runs_needed`, `balls_left`, `wickets_in_hand`, `current_run_rate`, `required_run_rate`, `target`, and `label`.
 - [ ] **Stage 4: Win-Probability Modeling & Calibration**

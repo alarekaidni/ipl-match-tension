@@ -19,8 +19,8 @@ __pycache__/
 .idea/
 
 # Large raw datasets (downloadable via scripts/download_data.py)
-# data/deliveries.csv is ~15MB, kept optional. If pushing full data, comment the next line:
-# data/deliveries.csv
+# Large raw datasets (downloadable via scripts/download_data.py)
+data/deliveries.csv
 
 # OS generated files
 .DS_Store
