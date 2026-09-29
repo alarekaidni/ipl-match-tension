@@ -93,8 +93,12 @@ jupyter lab
   - Uncovered the historical T20 chasing paradigm shift, peaking at 67.9% chasing wins in 2016.
   - Quantified phase scoring: Powerplay (7.50 RPO, 17.8% boundary rate), Middle overs (7.54 RPO, 12.7% boundary rate, lowest variance $\sigma=4.11$), Death overs (9.42 RPO, 18.6% boundary rate, 2x wicket hazard at 0.50/over).
   - Defined 3 JioStar business applications: Event-driven push notifications (Overs 15–18), dynamic ad breaks (Overs 7–14), and automated short-form highlight clipping.
-- [ ] **Stage 3: Chase-State Table Construction**
-  - Compute ball-by-ball: `runs_needed`, `balls_left`, `wickets_in_hand`, `current_run_rate`, `required_run_rate`, `target`, and `label`.
+- [x] **Stage 3: Chase-State Table Construction**
+  - Built production feature module [`src/features.py`](src/features.py) generating 71,363 ball-by-ball chase records.
+  - Decoupled legal balls from illegal extras (wides/no-balls) per ICC Laws 21 & 22 to ensure exact ball budget accounting.
+  - Computed dynamic state metrics: `runs_needed`, `balls_left`, `wickets_in_hand`, `current_run_rate`, `required_run_rate`, `target`, `venue`, and binary `label`.
+  - Implemented boundary protections (preventing division-by-zero at $B_{\text{left}}=0$ and negative runs needed).
+  - Exported optimized dataset to `data/chase_state.parquet`.
 - [ ] **Stage 4: Win-Probability Modeling & Calibration**
   - Logistic Regression baseline vs. Gradient Boosting (XGBoost/LightGBM).
   - Out-of-time evaluation: Season-based temporal split (leakage prevention).
