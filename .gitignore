@@ -1,0 +1,27 @@
+# Python virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# IDE configs
+.vscode/
+.idea/
+
+# Large raw datasets (downloadable via scripts/download_data.py)
+# data/deliveries.csv is ~15MB, kept optional. If pushing full data, comment the next line:
+# data/deliveries.csv
+
+# OS generated files
+.DS_Store
+Thumbs.db
