@@ -105,12 +105,44 @@ jupyter lab
   - Implemented Regularized XGBoost (Accuracy: **74.6%**, Log-Loss: **0.4649**, Brier Score: **0.1564**, ROC-AUC: **0.8407**).
   - Evaluated Brier score and generated Reliability Diagrams ([`reports/figures/05_calibration_curves.png`](reports/figures/05_calibration_curves.png)), proving both models produce well-calibrated probabilities.
   - Persisted trained model artifacts in `models/` directory for downstream swing inference.
-- [ ] **Stage 5: Match Tension Swing Analysis**
-  - Calculate $\Delta P_{\text{win}}$ per ball; aggregate tension volatility per over.
-  - Top 20 highest-tension matches and overs in IPL history.
-- [ ] **Stage 6: Strategic Visuals & Production Recommendations**
-  - Case studies of iconic chases (e.g. MI vs RR 2014, CSK finals).
-  - Implementation blueprint for push notification triggers and ad-break placement.
+- [x] **Stage 5: Match Tension Swing Analysis**
+  - Computed instantaneous delivery swing ($\Delta P_t = |P_t - P_{t-1}|$) across all 71,363 deliveries.
+  - Aggregated volatility to quantify over tension ($\sum \Delta P_t$) and ranked the **Top 20 Most Tense Overs in IPL History**.
+  - Identified primary predictors of match tension: dismissals in the over ($r = +0.301$) and high-variance death-over run spikes ($r = +0.220$).
+- [x] **Stage 6: Strategic Visuals & Production Recommendations**
+  - Reconstructed the ball-by-ball tension curve of the **2017 IPL Final (MI vs. RPS)** ([`reports/figures/06_ipl2017_final_tension.png`](reports/figures/06_ipl2017_final_tension.png)), charting Steve Smith's 19th over six and Mitchell Johnson's double-wicket 20th over climax.
+  - Architected an end-to-end **JioStar Real-Time Streaming Blueprint** (Kafka $\to$ Spark/Flink $\to$ Low-Latency Model Inference $\to$ Event-Driven Push Dispatcher / Dynamic Ad Server).
+
+---
+
+## 🏗️ JioStar Production Streaming Architecture
+
+```text
+[On-Pitch Ball Event Stream]
+          │
+          ▼
+[Apache Kafka Ingestion Topic: `cricket.ball_events`]
+          │
+          ▼
+[Apache Flink / Spark Streaming Pipeline]
+   - Reconstructs Real-Time Chase State Vector:
+     (R_needed, B_left, W_in_hand, CRR, RRR, Venue)
+          │
+          ▼
+[Low-Latency Inference Service (Triton / ONNX Runtime)]
+   - Evaluates Calibrated Logistic/XGBoost Model (Latency < 5ms)
+   - Computes Instantaneous Swing: ΔP_t = |P_t - P_{t-1}|
+          │
+    ┌─────┴──────────────────────────────┐
+    ▼                                    ▼
+[Tension >= 15% Trigger]           [Tension < 5% Consolidation]
+    │                                    │
+    ▼                                    ▼
+[Automated Push Dispatcher]        [Dynamic Ad Server]
+- Fires Rich Notification:         - Triggers 15-30s Mid-Roll Ad
+  "Down to the wire! RPS needs      - Inserts L-Band Sponsor Overlay
+   11 off the final over"          - Zero user drop-off risk
+```
 
 ---
 
