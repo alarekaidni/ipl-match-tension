@@ -99,10 +99,12 @@ jupyter lab
   - Computed dynamic state metrics: `runs_needed`, `balls_left`, `wickets_in_hand`, `current_run_rate`, `required_run_rate`, `target`, `venue`, and binary `label`.
   - Implemented boundary protections (preventing division-by-zero at $B_{\text{left}}=0$ and negative runs needed).
   - Exported optimized dataset to `data/chase_state.parquet`.
-- [ ] **Stage 4: Win-Probability Modeling & Calibration**
-  - Logistic Regression baseline vs. Gradient Boosting (XGBoost/LightGBM).
-  - Out-of-time evaluation: Season-based temporal split (leakage prevention).
-  - Calibration curves, Log-Loss, and Brier Score.
+- [x] **Stage 4: Win-Probability Modeling & Calibration**
+  - Evaluated on a strict chronological season split (Train: 2008–2015 [58,366 balls], Test: 2016–2017 [12,997 balls]) preventing intra-match leakage.
+  - Implemented Logistic Regression baseline (Accuracy: **76.6%**, Log-Loss: **0.4594**, Brier Score: **0.1545**, ROC-AUC: **0.8415**).
+  - Implemented Regularized XGBoost (Accuracy: **74.6%**, Log-Loss: **0.4649**, Brier Score: **0.1564**, ROC-AUC: **0.8407**).
+  - Evaluated Brier score and generated Reliability Diagrams ([`reports/figures/05_calibration_curves.png`](reports/figures/05_calibration_curves.png)), proving both models produce well-calibrated probabilities.
+  - Persisted trained model artifacts in `models/` directory for downstream swing inference.
 - [ ] **Stage 5: Match Tension Swing Analysis**
   - Calculate $\Delta P_{\text{win}}$ per ball; aggregate tension volatility per over.
   - Top 20 highest-tension matches and overs in IPL history.
